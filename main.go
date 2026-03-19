@@ -174,20 +174,20 @@ func downloadFile(a *asset) (string, error) {
 }
 
 func cp(from, to string) error {
-	cmd := exec.Command("cp", "-R", from, to)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	return cmd.Run()
+	return command("cp", "-R", from, to)
 }
 
 func fixSigning() error {
-	cmd := exec.Command("xattr", "-cr", appPath)
-	cmd.Stdout = os.Stdout
-	if err := cmd.Run(); err != nil {
+	if err := command("xattr", "-cr", appPath); err != nil {
 		return err
 	}
 
-	cmd = exec.Command("codesign", "--force", "--deep", "-s", "-", appPath)
+	return command("codesign", "--force", "--deep", "-s", "-", appPath)
+}
+
+func command(name string, args ...string) error {
+	cmd := exec.Command(name, args...)
 	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
 	return cmd.Run()
 }
