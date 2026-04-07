@@ -1,4 +1,4 @@
-module github.com/eletrolitico/macos_uc_updater
+module github.com/eletrolitico/ungoogled_chromium_updater
 
 go 1.26.1
 
