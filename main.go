@@ -96,6 +96,7 @@ func downloadFile(a *asset) (string, error) {
 		res.ContentLength,
 		fmt.Sprintf("downloading %s...", a.Name),
 	)
+	defer bar.Close()
 
 	_, err = io.Copy(io.MultiWriter(f, bar), res.Body)
 	if err != nil {
