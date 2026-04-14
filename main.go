@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 
 	"github.com/schollz/progressbar/v3"
@@ -25,15 +26,24 @@ type apiRes struct {
 }
 
 func main() {
+	if runtime.GOOS == "windows" {
+		defer func() {
+			fmt.Println("press ENTER to exit")
+			fmt.Scanln()
+		}()
+	}
+
 	ucPath, gcPath, err := downloadAssets()
 	if err != nil {
-		log.Fatalf("erro baixando assets: %v", err)
+		log.Printf("error downloading assets: %v\n", err)
+		return
 	}
 
 	log.Println("installing...")
 	err = install(ucPath, gcPath)
 	if err != nil {
-		log.Fatalf("install error: %v", err)
+		log.Printf("install error: %v\n", err)
+		return
 	}
 
 	log.Println("done!")

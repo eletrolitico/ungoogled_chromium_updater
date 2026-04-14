@@ -18,7 +18,7 @@ const owner = "ungoogled-software"
 const repo = "ungoogled-chromium-windows"
 
 var gcAsset = &asset{
-	Name: "googlechrome.exe",
+	Name: "standalonesetup64.exe",
 	Url:  "https://dl.google.com/chrome/install/standalonesetup64.exe",
 }
 
@@ -168,12 +168,12 @@ func extractWinRes(file string, dest string) error {
 	rs.WalkType(winres.Name("B7"), func(resID winres.Identifier, langID uint16, data []byte) bool {
 		err = os.WriteFile(filepath.Join(dest, fmt.Sprint(resID)), data, 0644)
 		if err != nil {
-			panic(err)
+			return false
 		}
 		return true
 	})
 
-	return nil
+	return err
 }
 
 func findFile(root, search string) (string, error) {
