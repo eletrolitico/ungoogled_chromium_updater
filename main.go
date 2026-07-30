@@ -46,6 +46,8 @@ func main() {
 		return
 	}
 
+	os.RemoveAll("downloads")
+
 	log.Println("done!")
 }
 
